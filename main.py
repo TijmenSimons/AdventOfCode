@@ -63,7 +63,7 @@ def generate_scripts(data: str, year: str, day: str):
 
     if response.status_code == 404:
         shutil.rmtree(path, ignore_errors=True)
-        msg = "Input does not exist! \nRemoving created files..."
+        msg = "Input does not exist!\nRemoving created files..."
         raise Exception(msg)
 
     assert response.status_code == 200, "Something went wrong, is your token outdated?"
@@ -120,9 +120,12 @@ def store_output(data: any, year: int, day: int, part: int, array_to_enter: bool
     if array_to_enter:
         data = "\n".join(data)
 
-    
-    with open(f"{year}/day_{day}/part_{part}_output.txt", "w") as f:
+    path = f"{year}/day_{day}/part_{part}_output.txt"
+
+    with open(path, "w") as f:
         f.write(str(data))
+
+    print(f"Output: {path}")
 
 __all__ = [
     "get_input"
