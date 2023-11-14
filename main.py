@@ -10,6 +10,7 @@ When value is not provided, it will default to the latest used values.
 
 
 import os
+import shutil
 import sys
 from pathlib import Path
 from dotenv import load_dotenv
@@ -44,9 +45,6 @@ def generate_scripts(data: str, year: str, day: str):
 
         msg = "Please set your AoC session token (found in cookie 'session') as 'TOKEN=<token>' in the .env file (I created one for you)"
         raise Exception(msg)
-    
-    if not os.path.exists(year):
-        os.makedirs(year)
         
     path = f"{year}/day_{day}"
     if not os.path.exists(path):
@@ -62,6 +60,11 @@ def generate_scripts(data: str, year: str, day: str):
     print("Getting input...")
 
     response = requests.get(f"https://adventofcode.com/{year}/day/{day}/input", cookies={'session': token})
+
+    if response.status_code == 404:
+        shutil.rmtree(path, ignore_errors=True)
+        msg = "Input does not exist! \nRemoving created files..."
+        raise Exception(msg)
 
     assert response.status_code == 200, "Something went wrong, is your token outdated?"
 
