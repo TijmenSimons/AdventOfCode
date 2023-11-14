@@ -10,7 +10,6 @@ When value is not provided, it will default to the latest used values.
 
 
 import os
-import shutil
 import sys
 from pathlib import Path
 from dotenv import load_dotenv
@@ -49,10 +48,10 @@ def generate_scripts(year: str, day: str):
     make("1")
     make("2")
 
-    with open(f"{year}/day_{day}/part_1_output.txt", "a") as f:
+    with open(f"{year}/day_{day}/part_1_output.txt", "a"):
         ...
     
-    with open(f"{year}/day_{day}/part_2_output.txt", "a") as f:
+    with open(f"{year}/day_{day}/part_2_output.txt", "a"):
         ...
     
     print(f"Created new workspace for year: {year}, day: {day}.")
@@ -66,7 +65,7 @@ def main():
             defaults = f.read().split(",")
 
     except FileNotFoundError:
-        with open("latest.txt", "a") as f:
+        with open("latest.txt", "a"):
             ...
         defaults = ["2021", "1", "1"]
     
