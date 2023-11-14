@@ -38,44 +38,24 @@ if __name__ == "{new_module}":
 def generate_scripts(year: str, day: str):
     print("Creating...")
 
-    token = os.getenv("TOKEN")
-    if not token:
-        with open(".env", "a") as f:
-            f.write("\nTOKEN=")
-
-        msg = "Please set your AoC session token (found in cookie 'session') as 'TOKEN=<token>' in the .env file (I created one for you)"
-        raise Exception(msg)
-        
     path = f"{year}/day_{day}"
     if not os.path.exists(path):
         os.makedirs(path)
 
-    with open(f"{path}/part_1.py", "w") as f:
-        f.write(script.format(year=year, day=day, part=1, this_module=__name__, new_module=f"{year}.day_{day}.part_1"))
+    def make(part):
+        with open(f"{path}/part_{part}.py", "w") as f:
+            f.write(script.format(year=year, day=day, part=part, this_module=__name__, new_module=f"{year}.day_{day}.part_{part}"))
 
-    with open(f"{path}/part_2.py", "w") as f:
-        f.write(script.format(year=year, day=day, part=2, this_module=__name__, new_module=f"{year}.day_{day}.part_1"))
+    make("1")
+    make("2")
 
-    print(f"Created new workspace for year: {year}, day: {day}.")
-    print("Getting input...")
-
-    response = requests.get(f"https://adventofcode.com/{year}/day/{day}/input", cookies={'session': token})
-
-    if response.status_code == 404:
-        shutil.rmtree(path, ignore_errors=True)
-        msg = "Input does not exist!\nRemoving created files..."
-        raise Exception(msg)
-
-    assert response.status_code == 200, "Something went wrong, is your token outdated?"
-
-    with open(f"{year}/day_{day}/input.txt", "w") as f:
-        f.write(response.text)
-    
     with open(f"{year}/day_{day}/part_1_output.txt", "a") as f:
         ...
     
     with open(f"{year}/day_{day}/part_2_output.txt", "a") as f:
         ...
+    
+    print(f"Created new workspace for year: {year}, day: {day}.")
 
 
 def main():
@@ -109,11 +89,36 @@ def main():
 
 
 def get_input(year: int, day: int, _, split_enter: bool = True):
-    with open(f"{year}/day_{day}/input.txt", "r") as f:
-        data = f.read()
-        if split_enter:
-            data = data.split("\n")
-        return data
+    try:
+        with open(f"{year}/day_{day}/input.txt", "r") as f:
+            data = f.read()
+            if split_enter:
+                data = data.split("\n")
+            return data
+    except FileNotFoundError:
+        ...
+    
+    token = os.getenv("TOKEN")
+    if not token:
+        with open(".env", "a") as f:
+            f.write("\nTOKEN=")
+
+        msg = "Please set your AoC session token (found in cookie 'session') as 'TOKEN=<token>' in the .env file (I created one for you)"
+        raise Exception(msg)
+    
+    response = requests.get(f"https://adventofcode.com/{year}/day/{day}/input", cookies={'session': token})
+
+    if response.status_code == 404:
+        msg = "Input does not exist!"
+        raise Exception(msg)
+
+    assert response.status_code == 200, "Something went wrong, is your token outdated?"
+
+    with open(f"{year}/day_{day}/input.txt", "w") as f:
+        f.write(response.text)
+
+    return response.text
+        
     
 
 def store_output(data: any, year: int, day: int, part: int, array_to_enter: bool = False):
