@@ -1,4 +1,6 @@
 """
+Run or generate a day script for advent of code.
+
 Usage:
 
 python main.py [year] [day] [part]
