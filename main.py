@@ -38,9 +38,10 @@ def generate_scripts(data: str, year: str, day: str):
     print("Creating...")
 
     token = os.getenv("TOKEN")
-    with open(".env", "a") as f:
-        f.write("\nTOKEN=")
     if not token:
+        with open(".env", "a") as f:
+            f.write("\nTOKEN=")
+
         msg = "Please set your AoC session token (found in cookie 'session') as 'TOKEN=<token>' in the .env file (I created one for you)"
         raise Exception(msg)
     
