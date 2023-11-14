@@ -20,7 +20,7 @@ import requests
 load_dotenv()
 
 
-default_data = """from {this_module} import get_input, store_output
+script = """from {this_module} import get_input, store_output
 
 __info = [{year}, {day}, {part}]
 
@@ -35,7 +35,7 @@ if __name__ == "{new_module}":
 """
 
 
-def generate_scripts(data: str, year: str, day: str):
+def generate_scripts(year: str, day: str):
     print("Creating...")
 
     token = os.getenv("TOKEN")
@@ -51,10 +51,10 @@ def generate_scripts(data: str, year: str, day: str):
         os.makedirs(path)
 
     with open(f"{path}/part_1.py", "w") as f:
-        f.write(data.format(year=year, day=day, part=1, this_module=__name__, new_module=f"{year}.day_{day}.part_1"))
+        f.write(script.format(year=year, day=day, part=1, this_module=__name__, new_module=f"{year}.day_{day}.part_1"))
 
     with open(f"{path}/part_2.py", "w") as f:
-        f.write(data.format(year=year, day=day, part=2, this_module=__name__, new_module=f"{year}.day_{day}.part_1"))
+        f.write(script.format(year=year, day=day, part=2, this_module=__name__, new_module=f"{year}.day_{day}.part_1"))
 
     print(f"Created new workspace for year: {year}, day: {day}.")
     print("Getting input...")
@@ -78,7 +78,7 @@ def generate_scripts(data: str, year: str, day: str):
         ...
 
 
-def main(data: str):
+def main():
     args = sys.argv
 
     try:
@@ -101,7 +101,7 @@ def main(data: str):
         __import__(name=f"{year}.day_{day}.part_{part}")
 
     else:
-        generate_scripts(data, year, day)
+        generate_scripts(year, day)
 
     with open("latest.txt", "w") as f:
         defaults = ",".join([year, day, part])
@@ -133,4 +133,4 @@ __all__ = [
 
 
 if __name__ == "__main__":
-    main(default_data)
+    main()
