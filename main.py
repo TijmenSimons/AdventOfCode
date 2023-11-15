@@ -11,10 +11,10 @@ When value is not provided, it will default to the latest used values.
 
 import os
 import sys
+import requests
 from pathlib import Path
 from dotenv import load_dotenv
 
-import requests
 
 load_dotenv()
 
@@ -25,13 +25,12 @@ __info = [{year}, {day}, {part}]
 
 def main():
     data = get_input(*__info)
-    data = \"\"\"\"\"\".split("\\n")
+    data = \"""\""".split("\\n")
     store_output(data, *__info)
 
 
 if __name__ == "{new_module}":
     main()
-    
 """
 
 
@@ -140,7 +139,7 @@ def store_output(
     with open(path, "w") as f:
         f.write(str(data))
 
-    print(f"Output: {path}")
+    print(f"Output: {path} == {str(data)}")
 
 
 __all__ = ["get_input"]
