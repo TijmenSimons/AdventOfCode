@@ -43,17 +43,25 @@ def generate_scripts(year: str, day: str):
 
     def make(part):
         with open(f"{path}/part_{part}.py", "w") as f:
-            f.write(script.format(year=year, day=day, part=part, this_module=__name__, new_module=f"{year}.day_{day}.part_{part}"))
+            f.write(
+                script.format(
+                    year=year,
+                    day=day,
+                    part=part,
+                    this_module=__name__,
+                    new_module=f"{year}.day_{day}.part_{part}",
+                )
+            )
 
     make("1")
     make("2")
 
     with open(f"{year}/day_{day}/part_1_output.txt", "a"):
         ...
-    
+
     with open(f"{year}/day_{day}/part_2_output.txt", "a"):
         ...
-    
+
     print(f"Created new workspace for year: {year}, day: {day}.")
 
 
@@ -68,11 +76,10 @@ def main():
         with open("latest.txt", "a"):
             ...
         defaults = ["2021", "1", "1"]
-    
+
     year = args[1] if len(args) > 1 else defaults[0]
     day = args[2] if len(args) > 2 else defaults[1]
     part = args[3] if len(args) > 3 else "1" if len(args) > 2 else defaults[2]
-
 
     my_file = Path(os.getcwd(), f"{year}/day_{day}/part_1.py")
 
@@ -96,7 +103,7 @@ def get_input(year: int, day: int, _, split_enter: bool = True):
             return data
     except FileNotFoundError:
         ...
-    
+
     token = os.getenv("TOKEN")
     if not token:
         with open(".env", "a") as f:
@@ -104,8 +111,10 @@ def get_input(year: int, day: int, _, split_enter: bool = True):
 
         msg = "Please set your AoC session token (found in cookie 'session') as 'TOKEN=<token>' in the .env file (I created one for you)"
         raise Exception(msg)
-    
-    response = requests.get(f"https://adventofcode.com/{year}/day/{day}/input", cookies={'session': token})
+
+    response = requests.get(
+        f"https://adventofcode.com/{year}/day/{day}/input", cookies={"session": token}
+    )
 
     if response.status_code == 404:
         msg = "Input does not exist!"
@@ -117,10 +126,11 @@ def get_input(year: int, day: int, _, split_enter: bool = True):
         f.write(response.text)
 
     return response.text
-        
-    
 
-def store_output(data: any, year: int, day: int, part: int, array_to_enter: bool = False):
+
+def store_output(
+    data: any, year: int, day: int, part: int, array_to_enter: bool = False
+):
     if array_to_enter:
         data = "\n".join(data)
 
@@ -131,9 +141,8 @@ def store_output(data: any, year: int, day: int, part: int, array_to_enter: bool
 
     print(f"Output: {path}")
 
-__all__ = [
-    "get_input"
-]
+
+__all__ = ["get_input"]
 
 
 if __name__ == "__main__":
