@@ -16,7 +16,7 @@ def main():
 
         if me == 0:  # lose
             res = foe - 1
-        elif me == 1:  # draw
+        if me == 1:  # draw
             res = foe
         if me == 2:  # win
             res = foe + 1

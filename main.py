@@ -25,7 +25,7 @@ __info = [{year}, {day}, {part}]
 
 def main():
     data = get_input(*__info)
-    data = \"\"\"\"\"\".split("\n")
+    data = \"\"\"\"\"\".split("\\n")
     store_output(data, *__info)
 
 
