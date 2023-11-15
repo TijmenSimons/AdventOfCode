@@ -48,7 +48,7 @@ def generate_scripts(year: str, day: str):
                     year=year,
                     day=day,
                     part=part,
-                    this_module=__name__,
+                    this_module=__name__.split("_")[2],
                     new_module=f"{year}.day_{day}.part_{part}",
                 )
             )
