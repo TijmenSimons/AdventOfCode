@@ -1,5 +1,4 @@
-from copy import deepcopy
-from main import get_input, store_output
+from main import get_input
 
 __info = [2023, 1, 2]
 
@@ -13,8 +12,7 @@ xtwone3four
 zoneight234
 7pqrstsixteen
 """.split("\n")
-    print(len(data))
-    # data = ["eightwothree", ""]
+    
     total = 0
     digits = {
         "one": 1, 
@@ -37,12 +35,6 @@ zoneight234
         "9": 9,
     }
 
-    # list_ = [1,2]
-    # print(list_.index(2))
-    # x = "abcdefghi"
-    # print(x[:3], x[4:])
-    # exit()
-
     def clear(s):
         h = len(s)//2
         return s[:h] + "_" + s[h + 1:]
@@ -54,7 +46,7 @@ zoneight234
 
     for line in data[:-1]:
         nrs = []
-        print(line)
+        # print(line)
 
         searching = True
         while searching:
@@ -78,15 +70,13 @@ zoneight234
             if nr[0] > highest[0]:
                 highest = nr
 
-        print(line)
-        print(nrs)
-        print(int(str(lowest[1]) + str(highest[1])))
-        input()
+        # print(line)
+        # print(nrs)
+        # print(int(str(lowest[1]) + str(highest[1])))
+        # input()
         total += int(str(lowest[1]) + str(highest[1]))
 
     print(total)
-
-    # store_output(data, *__info)
 
 
 if __name__ == "2023.day_1.part_2":

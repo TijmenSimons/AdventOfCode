@@ -19,14 +19,16 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-script = """from {this_module} import get_input, store_output
+script = """from {this_module} import get_input
 
 __info = [{year}, {day}, {part}]
 
 def main():
     data = get_input(*__info)
     data = \"""\""".split("\\n")
-    store_output(data, *__info)
+    
+    for line in data[:-1]:
+        print(line)
 
 
 if __name__ == "{new_module}":
