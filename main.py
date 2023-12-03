@@ -141,7 +141,7 @@ def store_output(
     with open(path, "w") as f:
         f.write(str(data))
 
-    print(f"Output: {path} == {str(data)}")
+    print(f"Output: {path} == {str(data)[:100]}...")
 
 
 __all__ = ["get_input"]
