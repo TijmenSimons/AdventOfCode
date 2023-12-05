@@ -1,4 +1,4 @@
-from main import get_input, store_output
+from main import get_input
 
 __info = [2023, 3, 1]
 
@@ -67,10 +67,10 @@ def main():
     # for line in grid:
     #     print("".join(line))
 
-    total = 0
-    output = []
+    # total = 0
+    # output = []
 
-    skip_amount = 0
+    # skip_amount = 0
 
 
     # for y, line in enumerate(grid):
@@ -169,14 +169,19 @@ def main():
                             i = coordinate[0] + 2
                             break
                     i += 1
+        
+        # Compute part 2
+        for i in symbols:
+            if len(symbols[i]) == 2:
+                part2 += symbols[i][0] * symbols[i][1]
 
     # print(symbols)
     # print(numbers)
 
     print(part1)
+    print(part2)
     # (too high) 1050932, 1048637, 1350338 
     # (just not right) 1033938 ?1122887 ?1128624
-    store_output(output, *__info, True)
 
 
 if __name__ == "2023.day_3.part_1":
